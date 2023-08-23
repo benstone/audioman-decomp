@@ -1,0 +1,104 @@
+add_library(
+	AudioMan
+
+	utils.cpp
+	factory.cpp
+	debugmem.cpp
+	dpf.cpp
+	convert.cpp
+	audioman.cpp
+	audio.cpp
+	sndmute.cpp
+	stream.cpp
+	sound.cpp
+	riffstrm.cpp
+	riff.cpp
+	cwaveout.cpp
+	cchannel.cpp
+	crealout.cpp
+	cplaysnd.cpp
+	cmixout.cpp
+	cmixlib.cpp
+	cmixer.cpp
+	cfakeout.cpp
+	sndtrim.cpp
+	sndstreo.cpp
+	sndsched.cpp
+	sndrand.cpp
+	sndpass.cpp
+	sndmix.cpp
+	sndloop.cpp
+	sndgate.cpp
+	sndgain.cpp
+	sndfader.cpp
+	sndecho.cpp
+	snddist.cpp
+	sndcnvt.cpp
+	sndclip.cpp
+	sndcache.cpp
+	sndbias.cpp
+	sndapend.cpp
+
+	mutex.cpp
+	utils.h
+	factory.h
+	debugmem.h
+	audio.h
+	audiomaninternal.h
+	dpf.h
+	sound.h
+	stream.h
+	riff.h
+	riffstrm.h
+	sndpass.h
+	sndcnvt.h
+	convert.h
+	sndloop.h
+	sndbias.h
+	sndgate.h
+	sndclip.h
+	sndtrim.h
+	cfakeout.h
+	crealout.h
+	mutex.h
+	sndcache.h
+	cmixout.h
+	cchannel.h
+	cmixlib.h
+	cplaysnd.h
+
+	todo.cpp
+)
+
+option(
+	AUDIOMAN_USE_DEBUG_ALLOCATOR
+	"Use debug memory allocator"
+	ON
+)
+
+if(AUDIOMAN_USE_DEBUG_ALLOCATOR)
+	target_compile_definitions(
+		AudioMan
+		PRIVATE
+		AUDIOMAN_USE_DEBUG_ALLOCATOR
+	)
+endif()
+
+target_include_directories(
+	AudioMan
+	PUBLIC
+	"${PROJECT_SOURCE_DIR}/inc"
+)
+
+target_include_directories(
+	AudioMan
+	PRIVATE
+	"${CMAKE_CURRENT_SOURCE_DIR}"
+)
+
+target_link_libraries(
+	AudioMan
+	PUBLIC
+	winmm
+	msacm32
+)

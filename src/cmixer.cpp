@@ -90,7 +90,9 @@ CAMMixer::Init(HINSTANCE hInst, LPWAVEOUT pWaveOut, LPMIXERCONFIG pMixerConfig, 
     else
     {
         EnterMixer();
+#ifdef _DEBUG
         DebugSetup();
+#endif // _DEBUG
         DPRINTF(1, "InitMixer");
 
         if (m_IsInitialized == FALSE && hInst != NULL)

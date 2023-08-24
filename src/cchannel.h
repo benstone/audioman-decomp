@@ -36,7 +36,7 @@ DECLARE_INTERFACE_(IAMMixerChannel, IUnknown)
 
     // IAMMixerChannel methods
 
-    STDMETHOD(SetMutx)(THIS_ MUTX * mutex) PURE;
+    STDMETHOD(SetMutx)(THIS_ CAMMutex * mutex) PURE;
     STDMETHOD(Configure)(THIS_ DWORD dwNumBuffers, DWORD dwNumSamples, WAVEFORMATEX * lpwfx) PURE;
     STDMETHOD_(BOOL, MixBuffer)(THIS_ MIXHEADER * lpMixHeader);
     STDMETHOD(MixNotify)(THIS_ MIXHEADER * lpMixHeader) PURE;
@@ -89,7 +89,7 @@ class CAMChannel : public IAMChannel, IAMMixerChannel
 
     // IAMMixerChannel methods
 
-    STDMETHOD(SetMutx)(THIS_ MUTX *mutex);
+    STDMETHOD(SetMutx)(THIS_ CAMMutex *mutex);
     STDMETHOD(Configure)(THIS_ DWORD dwNumBuffers, DWORD dwNumSamples, WAVEFORMATEX *lpwfx);
     STDMETHOD_(BOOL, MixBuffer)(THIS_ MIXHEADER *lpMixHeader);
     STDMETHOD(MixNotify)(THIS_ MIXHEADER *lpMixHeader);
@@ -183,7 +183,7 @@ class CAMChannel : public IAMChannel, IAMMixerChannel
     BOOL m_SettingVolume = TRUE;
     BOOL m_Remixing = FALSE;
     BOOL m_Muted = FALSE;
-    MUTX *m_ChannelLock;
+    CAMMutex *m_ChannelLock;
     MixerProc m_MixerProc;
     MixerProc m_MixerProcVolOnly;
 };

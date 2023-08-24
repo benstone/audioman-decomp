@@ -1,21 +1,21 @@
 #include "mutex.h"
 
-MUTX::MUTX()
+CAMMutex::CAMMutex()
 {
     InitializeCriticalSection(&m_CritSec);
 }
 
-MUTX::~MUTX()
+CAMMutex::~CAMMutex()
 {
     DeleteCriticalSection(&m_CritSec);
 }
 
-void MUTX::Enter()
+void CAMMutex::Enter()
 {
     EnterCriticalSection(&m_CritSec);
 }
 
-void MUTX::Leave()
+void CAMMutex::Leave()
 {
     LeaveCriticalSection(&m_CritSec);
 }

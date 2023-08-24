@@ -804,10 +804,10 @@ STDMETHODIMP_(void __stdcall) CAMMixer::Refresh()
 
 CAMMixer::CAMMixer()
 {
-    m_MixerLock = new MUTX();
+    m_MixerLock = new CAMMutex();
     if (m_MixerLock != NULL)
     {
-        m_PumpLock = new MUTX();
+        m_PumpLock = new CAMMutex();
 
         if (m_PumpLock == NULL)
         {
@@ -821,7 +821,7 @@ CAMMixer::~CAMMixer()
 {
     if (m_PumpLock != NULL)
     {
-        MUTX *pMutx = m_PumpLock;
+        CAMMutex *pMutx = m_PumpLock;
         m_PumpLock = NULL;
 
         delete pMutx;

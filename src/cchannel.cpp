@@ -624,7 +624,7 @@ STDMETHODIMP CAMChannel::SetTimePos(DWORD dwTime)
     return hr;
 }
 
-STDMETHODIMP CAMChannel::SetMutx(MUTX *mutex)
+STDMETHODIMP CAMChannel::SetMutx(CAMMutex *mutex)
 {
     m_ChannelLock = mutex;
     return S_OK;

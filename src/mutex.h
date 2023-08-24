@@ -6,11 +6,12 @@
 // uses CRITICAL_SECTION
 #include <Windows.h>
 
-class MUTX
+// NOTE: This class was called MUTX, but that conflicts with the MUTX class in the Kauai library used in 3D Movie Maker.
+class CAMMutex
 {
   public:
-    MUTX();
-    ~MUTX();
+    CAMMutex();
+    ~CAMMutex();
 
     /**
      * Acquire the mutex

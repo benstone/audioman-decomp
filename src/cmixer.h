@@ -180,8 +180,8 @@ class CAMMixer : public IAMMixer
     STDMETHODIMP_(void) RemixBuffers(DWORD dwBufferNumber);
 
     // Class members
-    MUTX *m_MixerLock = NULL;
-    MUTX *m_PumpLock = NULL;
+    CAMMutex *m_MixerLock = NULL;
+    CAMMutex *m_PumpLock = NULL;
     ULONG m_RefCnt = 0;
 
     IAMMixerChannel *m_FirstMixerChannel = NULL;

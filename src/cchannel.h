@@ -38,7 +38,7 @@ DECLARE_INTERFACE_(IAMMixerChannel, IUnknown)
 
     STDMETHOD(SetMutx)(THIS_ CAMMutex * mutex) PURE;
     STDMETHOD(Configure)(THIS_ DWORD dwNumBuffers, DWORD dwNumSamples, WAVEFORMATEX * lpwfx) PURE;
-    STDMETHOD_(BOOL, MixBuffer)(THIS_ MIXHEADER * lpMixHeader);
+    STDMETHOD_(BOOL, MixBuffer)(THIS_ MIXHEADER * lpMixHeader) PURE;
     STDMETHOD(MixNotify)(THIS_ MIXHEADER * lpMixHeader) PURE;
     STDMETHOD(RevertTo)(THIS_ ULONG dwBuffer) PURE;
     STDMETHOD_(ULONG, GetActiveState)(THIS_) PURE;

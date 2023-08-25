@@ -103,7 +103,7 @@ class CAMMixer : public IAMMixer
     void LeavePump();
 
     // Return name of config file
-    char *GetInitFile()
+    const char *GetInitFile()
     {
         return "audioman.ini";
     }

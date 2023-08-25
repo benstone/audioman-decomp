@@ -865,7 +865,7 @@ void CAMMixer::LeavePump()
 STDMETHODIMP CAMMixer::DebugSetup()
 {
     char rgDbgLog[64];
-    char *szInitFile = GetInitFile();
+    const char *szInitFile = GetInitFile();
 
     // Get log level
     DWORD uDbgLevel = GetPrivateProfileIntA("debug", "level", kDefaultLogLevel, szInitFile);
@@ -889,7 +889,7 @@ STDMETHODIMP CAMMixer::LoadProfile()
     MIXERSETTINGS ms;
 
     // Get options from config file
-    char *szInitFile = GetInitFile();
+    const char *szInitFile = GetInitFile();
 
     ms.Format.nChannels = GetPrivateProfileIntA("settings", "channels", kDefaultChannels, szInitFile);
     ms.Format.wBitsPerSample = GetPrivateProfileIntA("settings", "sample", kDefaultSample, szInitFile);

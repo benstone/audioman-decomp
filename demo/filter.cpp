@@ -13,8 +13,8 @@ typedef HRESULT (*FilterFunc)(LPSOUND psndSrc, LPSOUND *psndFiltered, int argc, 
 
 typedef struct Filter_t
 {
-    char *name;
-    char *description;
+    const char *name;
+    const char *description;
     FilterFunc func;
 } Filter;
 

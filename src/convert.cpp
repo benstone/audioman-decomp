@@ -21,9 +21,9 @@ DWORD ConvertPCMGeneric(BYTE *lpSrc, DWORD cbSrc, BYTE *lpDst, DWORD cbDst, CONV
     // Set up stream header
     streamHeader.cbStruct = sizeof(streamHeader);
     streamHeader.fdwStatus = 0;
-    streamHeader.dwUser = NULL;
-    streamHeader.dwSrcUser = NULL;
-    streamHeader.dwDstUser = NULL;
+    streamHeader.dwUser = 0;
+    streamHeader.dwSrcUser = 0;
+    streamHeader.dwDstUser = 0;
     streamHeader.pbSrc = lpSrc;
     streamHeader.cbSrcLength = cbSrc;
     streamHeader.cbSrcLengthUsed = cbSrc;

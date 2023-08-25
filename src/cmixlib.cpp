@@ -2,6 +2,7 @@
 #include "dpf.h"
 #include "todo.h"
 #include <cassert>
+#include <intrin.h>
 
 void __stdcall slowMixSixteen(short *output, short *input, DWORD cbInput, BYTE *unused)
 {

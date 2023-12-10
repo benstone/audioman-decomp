@@ -30,15 +30,7 @@ STDMETHODIMP_(ULONG) CAMChannel::Release()
             IUnknown *pChannel;
 
             pMixer->AddRef();
-
-            if (this == NULL)
-            {
-                pChannel = NULL;
-            }
-            else
-            {
-                pChannel = (LPCHANNEL)this;
-            }
+            pChannel = (LPCHANNEL)this;
             pMixer->UnregisterChannel(pChannel);
             pMixer->Release();
         }
@@ -212,7 +204,7 @@ STDMETHODIMP CAMChannel::SetCachedSrc(LPSOUND pSound, LPCACHECONFIG pCacheConfig
 
     EnterChannel();
 
-    if (pSound == NULL && pCacheConfig == NULL)
+    if (pSound == NULL)
     {
         hr = SetSoundSrc(NULL);
     }

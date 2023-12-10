@@ -199,7 +199,7 @@ void __stdcall VolAdjustSixteen(DWORD dwVolume, BYTE *lpDstPtr, BYTE *hpSrcPtr, 
         while (cb != 0)
         {
             LONG x = ((int)*hpSrc >> 3) + ((int)*hpSrc >> 4) + (int)*hpSrc;
-            if (x + 0x8000U >> 0x10 != 0)
+            if ((x + 0x8000U) >> 0x10 != 0)
             {
                 if (x < -0x8000)
                 {
@@ -220,7 +220,7 @@ void __stdcall VolAdjustSixteen(DWORD dwVolume, BYTE *lpDstPtr, BYTE *hpSrcPtr, 
         while (cb != 0)
         {
             LONG x = ((int)*hpSrc >> 2) + (int)*hpSrc;
-            if (x + 0x8000U >> 0x10 != 0)
+            if ((x + 0x8000U) >> 0x10 != 0)
             {
                 if (x < -0x8000)
                 {
@@ -241,7 +241,7 @@ void __stdcall VolAdjustSixteen(DWORD dwVolume, BYTE *lpDstPtr, BYTE *hpSrcPtr, 
         while (cb != 0)
         {
             LONG x = (((int)*hpSrc >> 1) + (int)*hpSrc) - ((int)*hpSrc >> 3);
-            if (x + 0x8000U >> 0x10 != 0)
+            if ((x + 0x8000U) >> 0x10 != 0)
             {
                 if (x < -0x8000)
                 {
@@ -262,7 +262,7 @@ void __stdcall VolAdjustSixteen(DWORD dwVolume, BYTE *lpDstPtr, BYTE *hpSrcPtr, 
         while (cb != 0)
         {
             LONG x = ((int)*hpSrc >> 1) + (int)*hpSrc;
-            if (x + 0x8000U >> 0x10 != 0)
+            if ((x + 0x8000U) >> 0x10 != 0)
             {
                 if (x < -0x8000)
                 {
@@ -283,7 +283,7 @@ void __stdcall VolAdjustSixteen(DWORD dwVolume, BYTE *lpDstPtr, BYTE *hpSrcPtr, 
         while (cb != 0)
         {
             LONG x = ((int)*hpSrc >> 1) + ((int)*hpSrc >> 3) + (int)*hpSrc;
-            if (x + 0x8000U >> 0x10 != 0)
+            if ((x + 0x8000U) >> 0x10 != 0)
             {
                 if (x < -0x8000)
                 {
@@ -304,7 +304,7 @@ void __stdcall VolAdjustSixteen(DWORD dwVolume, BYTE *lpDstPtr, BYTE *hpSrcPtr, 
         while (cb != 0)
         {
             LONG x = *hpSrc * 2 - ((int)*hpSrc >> 2);
-            if (x + 0x8000U >> 0x10 != 0)
+            if ((x + 0x8000U) >> 0x10 != 0)
             {
                 if (x < -0x8000)
                 {
@@ -325,7 +325,7 @@ void __stdcall VolAdjustSixteen(DWORD dwVolume, BYTE *lpDstPtr, BYTE *hpSrcPtr, 
         while (cb != 0)
         {
             LONG x = *hpSrc * 2 - ((int)*hpSrc >> 3);
-            if (x + 0x8000U >> 0x10 != 0)
+            if ((x + 0x8000U) >> 0x10 != 0)
             {
                 if (x < -0x8000)
                 {
@@ -346,7 +346,7 @@ void __stdcall VolAdjustSixteen(DWORD dwVolume, BYTE *lpDstPtr, BYTE *hpSrcPtr, 
         while (cb != 0)
         {
             LONG x = *hpSrc * 2;
-            if (x + 0x8000U >> 0x10 != 0)
+            if ((x + 0x8000U) >> 0x10 != 0)
             {
                 if (x < -0x8000)
                 {
@@ -367,7 +367,7 @@ void __stdcall VolAdjustSixteen(DWORD dwVolume, BYTE *lpDstPtr, BYTE *hpSrcPtr, 
         while (cb != 0)
         {
             LONG x = ((int)*hpSrc >> 3) + *hpSrc * 2;
-            if (x + 0x8000U >> 0x10 != 0)
+            if ((x + 0x8000U) >> 0x10 != 0)
             {
                 if (x < -0x8000)
                 {
@@ -388,7 +388,7 @@ void __stdcall VolAdjustSixteen(DWORD dwVolume, BYTE *lpDstPtr, BYTE *hpSrcPtr, 
         while (cb != 0)
         {
             LONG x = ((int)*hpSrc >> 1) + *hpSrc * 2;
-            if (x + 0x8000U >> 0x10 != 0)
+            if ((x + 0x8000U) >> 0x10 != 0)
             {
                 if (x < -0x8000)
                 {
@@ -409,7 +409,7 @@ void __stdcall VolAdjustSixteen(DWORD dwVolume, BYTE *lpDstPtr, BYTE *hpSrcPtr, 
         while (cb != 0)
         {
             LONG x = ((int)*hpSrc + *hpSrc * 2) - ((int)*hpSrc >> 2);
-            if (x + 0x8000U >> 0x10 != 0)
+            if ((x + 0x8000U) >> 0x10 != 0)
             {
                 if (x < -0x8000)
                 {
@@ -430,7 +430,7 @@ void __stdcall VolAdjustSixteen(DWORD dwVolume, BYTE *lpDstPtr, BYTE *hpSrcPtr, 
         while (cb != 0)
         {
             LONG x = (int)*hpSrc + *hpSrc * 2;
-            if (x + 0x8000U >> 0x10 != 0)
+            if ((x + 0x8000U) >> 0x10 != 0)
             {
                 if (x < -0x8000)
                 {
@@ -451,7 +451,7 @@ void __stdcall VolAdjustSixteen(DWORD dwVolume, BYTE *lpDstPtr, BYTE *hpSrcPtr, 
         while (cb != 0)
         {
             LONG x = ((int)*hpSrc >> 1) + *hpSrc * 2 + (int)*hpSrc;
-            if (x + 0x8000U >> 0x10 != 0)
+            if ((x + 0x8000U) >> 0x10 != 0)
             {
                 if (x < -0x8000)
                 {
@@ -472,7 +472,7 @@ void __stdcall VolAdjustSixteen(DWORD dwVolume, BYTE *lpDstPtr, BYTE *hpSrcPtr, 
         while (cb != 0)
         {
             LONG x = *hpSrc * 4;
-            if (x + 0x8000U >> 0x10 != 0)
+            if ((x + 0x8000U) >> 0x10 != 0)
             {
                 if (x < -0x8000)
                 {
@@ -493,7 +493,7 @@ void __stdcall VolAdjustSixteen(DWORD dwVolume, BYTE *lpDstPtr, BYTE *hpSrcPtr, 
         while (cb != 0)
         {
             LONG x = (int)*hpSrc + *hpSrc * 4;
-            if (x + 0x8000U >> 0x10 != 0)
+            if ((x + 0x8000U) >> 0x10 != 0)
             {
                 if (x < -0x8000)
                 {
@@ -514,7 +514,7 @@ void __stdcall VolAdjustSixteen(DWORD dwVolume, BYTE *lpDstPtr, BYTE *hpSrcPtr, 
         while (cb != 0)
         {
             LONG x = *hpSrc * 4 + *hpSrc * 2;
-            if (x + 0x8000U >> 0x10 != 0)
+            if ((x + 0x8000U) >> 0x10 != 0)
             {
                 if (x < -0x8000)
                 {
@@ -722,7 +722,7 @@ void __stdcall PanVolAdjustSixteen(DWORD dwVolume, BYTE *lpDst, BYTE *hpSrc, DWO
             while (cSamples != 0)
             {
                 LONG x = ((int)*hpSrcSample >> 3) + ((int)*hpSrcSample >> 4) + (int)*hpSrcSample;
-                if (x + 0x8000U >> 0x10 != 0)
+                if ((x + 0x8000U) >> 0x10 != 0)
                 {
                     if (x < -0x8000)
                     {
@@ -743,7 +743,7 @@ void __stdcall PanVolAdjustSixteen(DWORD dwVolume, BYTE *lpDst, BYTE *hpSrc, DWO
             while (cSamples != 0)
             {
                 LONG x = ((int)*hpSrcSample >> 2) + (int)*hpSrcSample;
-                if (x + 0x8000U >> 0x10 != 0)
+                if ((x + 0x8000U) >> 0x10 != 0)
                 {
                     if (x < -0x8000)
                     {
@@ -764,7 +764,7 @@ void __stdcall PanVolAdjustSixteen(DWORD dwVolume, BYTE *lpDst, BYTE *hpSrc, DWO
             while (cSamples != 0)
             {
                 LONG x = (((int)*hpSrcSample >> 1) + (int)*hpSrcSample) - ((int)*hpSrcSample >> 3);
-                if (x + 0x8000U >> 0x10 != 0)
+                if ((x + 0x8000U) >> 0x10 != 0)
                 {
                     if (x < -0x8000)
                     {
@@ -785,7 +785,7 @@ void __stdcall PanVolAdjustSixteen(DWORD dwVolume, BYTE *lpDst, BYTE *hpSrc, DWO
             while (cSamples != 0)
             {
                 LONG x = ((int)*hpSrcSample >> 1) + (int)*hpSrcSample;
-                if (x + 0x8000U >> 0x10 != 0)
+                if ((x + 0x8000U) >> 0x10 != 0)
                 {
                     if (x < -0x8000)
                     {
@@ -806,7 +806,7 @@ void __stdcall PanVolAdjustSixteen(DWORD dwVolume, BYTE *lpDst, BYTE *hpSrc, DWO
             while (cSamples != 0)
             {
                 LONG x = ((int)*hpSrcSample >> 1) + ((int)*hpSrcSample >> 3) + (int)*hpSrcSample;
-                if (x + 0x8000U >> 0x10 != 0)
+                if ((x + 0x8000U) >> 0x10 != 0)
                 {
                     if (x < -0x8000)
                     {
@@ -827,7 +827,7 @@ void __stdcall PanVolAdjustSixteen(DWORD dwVolume, BYTE *lpDst, BYTE *hpSrc, DWO
             while (cSamples != 0)
             {
                 LONG x = *hpSrcSample * 2 - ((int)*hpSrcSample >> 2);
-                if (x + 0x8000U >> 0x10 != 0)
+                if ((x + 0x8000U) >> 0x10 != 0)
                 {
                     if (x < -0x8000)
                     {
@@ -848,7 +848,7 @@ void __stdcall PanVolAdjustSixteen(DWORD dwVolume, BYTE *lpDst, BYTE *hpSrc, DWO
             while (cSamples != 0)
             {
                 LONG x = *hpSrcSample * 2 - ((int)*hpSrcSample >> 3);
-                if (x + 0x8000U >> 0x10 != 0)
+                if ((x + 0x8000U) >> 0x10 != 0)
                 {
                     if (x < -0x8000)
                     {
@@ -869,7 +869,7 @@ void __stdcall PanVolAdjustSixteen(DWORD dwVolume, BYTE *lpDst, BYTE *hpSrc, DWO
             while (cSamples != 0)
             {
                 LONG x = *hpSrcSample * 2;
-                if (x + 0x8000U >> 0x10 != 0)
+                if ((x + 0x8000U) >> 0x10 != 0)
                 {
                     if (x < -0x8000)
                     {
@@ -890,7 +890,7 @@ void __stdcall PanVolAdjustSixteen(DWORD dwVolume, BYTE *lpDst, BYTE *hpSrc, DWO
             while (cSamples != 0)
             {
                 LONG x = ((int)*hpSrcSample >> 3) + *hpSrcSample * 2;
-                if (x + 0x8000U >> 0x10 != 0)
+                if ((x + 0x8000U) >> 0x10 != 0)
                 {
                     if (x < -0x8000)
                     {
@@ -911,7 +911,7 @@ void __stdcall PanVolAdjustSixteen(DWORD dwVolume, BYTE *lpDst, BYTE *hpSrc, DWO
             while (cSamples != 0)
             {
                 LONG x = ((int)*hpSrcSample >> 1) + *hpSrcSample * 2;
-                if (x + 0x8000U >> 0x10 != 0)
+                if ((x + 0x8000U) >> 0x10 != 0)
                 {
                     if (x < -0x8000)
                     {
@@ -932,7 +932,7 @@ void __stdcall PanVolAdjustSixteen(DWORD dwVolume, BYTE *lpDst, BYTE *hpSrc, DWO
             while (cSamples != 0)
             {
                 LONG x = ((int)*hpSrcSample + *hpSrcSample * 2) - ((int)*hpSrcSample >> 2);
-                if (x + 0x8000U >> 0x10 != 0)
+                if ((x + 0x8000U) >> 0x10 != 0)
                 {
                     if (x < -0x8000)
                     {
@@ -953,7 +953,7 @@ void __stdcall PanVolAdjustSixteen(DWORD dwVolume, BYTE *lpDst, BYTE *hpSrc, DWO
             while (cSamples != 0)
             {
                 LONG x = (int)*hpSrcSample + *hpSrcSample * 2;
-                if (x + 0x8000U >> 0x10 != 0)
+                if ((x + 0x8000U) >> 0x10 != 0)
                 {
                     if (x < -0x8000)
                     {
@@ -974,7 +974,7 @@ void __stdcall PanVolAdjustSixteen(DWORD dwVolume, BYTE *lpDst, BYTE *hpSrc, DWO
             while (cSamples != 0)
             {
                 LONG x = ((int)*hpSrcSample >> 1) + *hpSrcSample * 2 + (int)*hpSrcSample;
-                if (x + 0x8000U >> 0x10 != 0)
+                if ((x + 0x8000U) >> 0x10 != 0)
                 {
                     if (x < -0x8000)
                     {
@@ -995,7 +995,7 @@ void __stdcall PanVolAdjustSixteen(DWORD dwVolume, BYTE *lpDst, BYTE *hpSrc, DWO
             while (cSamples != 0)
             {
                 LONG x = *hpSrcSample * 4;
-                if (x + 0x8000U >> 0x10 != 0)
+                if ((x + 0x8000U) >> 0x10 != 0)
                 {
                     if (x < -0x8000)
                     {
@@ -1016,7 +1016,7 @@ void __stdcall PanVolAdjustSixteen(DWORD dwVolume, BYTE *lpDst, BYTE *hpSrc, DWO
             while (cSamples != 0)
             {
                 LONG x = (int)*hpSrcSample + *hpSrcSample * 4;
-                if (x + 0x8000U >> 0x10 != 0)
+                if ((x + 0x8000U) >> 0x10 != 0)
                 {
                     if (x < -0x8000)
                     {
@@ -1037,7 +1037,7 @@ void __stdcall PanVolAdjustSixteen(DWORD dwVolume, BYTE *lpDst, BYTE *hpSrc, DWO
             while (cSamples != 0)
             {
                 LONG x = *hpSrcSample * 2 + *hpSrcSample * 4;
-                if (x + 0x8000U >> 0x10 != 0)
+                if ((x + 0x8000U) >> 0x10 != 0)
                 {
                     if (x < -0x8000)
                     {

@@ -6,7 +6,7 @@
 // Convert using ACM
 DWORD ConvertPCMGeneric(BYTE *lpSrc, DWORD cbSrc, BYTE *lpDst, DWORD cbDst, CONVERSIONDATA *lpConversionData)
 {
-    ACMSTREAMHEADER streamHeader;
+    ACMSTREAMHEADER streamHeader = {0};
 
     assert(lpConversionData->acmStream != NULL);
     assert(lpConversionData->UseACM == TRUE);
@@ -71,8 +71,7 @@ BOOL ReleasePCMConvertProc(CONVERSIONDATA *pConversionData)
 
 DWORD GetSourceSize(DWORD dwDestSize, CONVERSIONDATA *lpConversionData)
 {
-    LONG temp;
-    DWORD srcSize;
+    DWORD srcSize = 0;
 
     if (lpConversionData->UseACM == FALSE)
     {
@@ -93,8 +92,7 @@ DWORD GetSourceSize(DWORD dwDestSize, CONVERSIONDATA *lpConversionData)
 
 DWORD GetDestSize(DWORD dwSourceSize, CONVERSIONDATA *lpConversionData)
 {
-    LONG temp;
-    DWORD destSize;
+    DWORD destSize = 0;
 
     if (lpConversionData->UseACM == FALSE)
     {

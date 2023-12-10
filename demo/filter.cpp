@@ -3,7 +3,8 @@
  **/
 #include <Windows.h>
 #include <AUDIOMAN.H>
-#include <cstdio>
+#include <stdio.h>
+#include <string.h>
 
 /**
  * @brief Function that takes a sound and applies a filter to it.
@@ -25,7 +26,7 @@ void LogHR(const char *functionName, HRESULT hr)
 {
     if (FAILED(hr))
     {
-        printf("%s failed: 0x%x\n", functionName, hr);
+        printf("%s failed: 0x%lx\n", functionName, hr);
     }
     else
     {
@@ -35,7 +36,7 @@ void LogHR(const char *functionName, HRESULT hr)
         }
         else
         {
-            printf("%s succeeded: 0x%x\n", functionName, hr);
+            printf("%s succeeded: 0x%lx\n", functionName, hr);
         }
     }
 }
@@ -104,7 +105,7 @@ HRESULT CacheFilter(LPSOUND psndSrc, LPSOUND *psndFiltered, int argc, char *argv
         hr = E_INVALIDARG;
         if (argc == 1)
         {
-            if (sscanf(argv[0], "%d", &cacheConfig.dwCacheTime) == 1)
+            if (sscanf(argv[0], "%lu", &cacheConfig.dwCacheTime) == 1)
             {
                 hr = S_OK;
             }
@@ -118,7 +119,7 @@ HRESULT CacheFilter(LPSOUND psndSrc, LPSOUND *psndFiltered, int argc, char *argv
     }
     else
     {
-        printf("Cache time: %d ms\n", cacheConfig.dwCacheTime);
+        printf("Cache time: %ld ms\n", cacheConfig.dwCacheTime);
         hr = AllocCacheFilter(psndFiltered, psndSrc, &cacheConfig);
         LogHR("AllocCacheFilter", hr);
     }
@@ -135,7 +136,7 @@ HRESULT LoopFilter(LPSOUND psndSrc, LPSOUND *psndFiltered, int argc, char *argv[
     // Parse command-line args
     if (argc >= 1)
     {
-        if (sscanf(argv[0], "%d", &loops) == 1 && loops != 0xFFFFFFFF)
+        if (sscanf(argv[0], "%ld", &loops) == 1 && loops != 0xFFFFFFFF)
         {
             hr = S_OK;
         }
@@ -148,7 +149,7 @@ HRESULT LoopFilter(LPSOUND psndSrc, LPSOUND *psndFiltered, int argc, char *argv[
     }
     else
     {
-        printf("Loops: %d\n", loops);
+        printf("Loops: %lu\n", loops);
         hr = AllocLoopFilter(psndFiltered, psndSrc, loops);
         LogHR("AllocLoopFilter", hr);
     }
@@ -165,7 +166,7 @@ HRESULT ClipFilter(LPSOUND psndSrc, LPSOUND *psndFiltered, int argc, char *argv[
     // Parse command-line args
     if (argc == 2)
     {
-        if (sscanf(argv[0], "%d", &start) == 1 && sscanf(argv[1], "%d", &end) == 1)
+        if (sscanf(argv[0], "%lu", &start) == 1 && sscanf(argv[1], "%lu", &end) == 1)
         {
             hr = S_OK;
         }
@@ -178,7 +179,7 @@ HRESULT ClipFilter(LPSOUND psndSrc, LPSOUND *psndFiltered, int argc, char *argv[
     }
     else
     {
-        printf("Clip: %d - %d\n", start, end);
+        printf("Clip: %lu - %lu\n", start, end);
         hr = AllocClipFilter(psndFiltered, psndSrc, start, end);
         LogHR("AllocClipFilter", hr);
     }
@@ -256,7 +257,7 @@ int main(int argc, char *argv[])
         // Find the selected filter by name
         for (int i = 0; i < numberOfFilters && hr != S_OK; i++)
         {
-            if (stricmp(argv[3], filters[i].name) == 0)
+            if (_stricmp(argv[3], filters[i].name) == 0)
             {
                 selectedFilter = i;
                 hr = S_OK;
@@ -286,7 +287,7 @@ int main(int argc, char *argv[])
     if (SUCCEEDED(hr))
     {
         sourceSamples = psndSrc->GetSamples();
-        printf("Source Samples: %d\n", sourceSamples);
+        printf("Source Samples: %lu\n", sourceSamples);
     }
 
     // Add the filter
@@ -311,7 +312,7 @@ int main(int argc, char *argv[])
         DWORD filteredSamples = psndFiltered->GetSamples();
         if (filteredSamples != sourceSamples)
         {
-            printf("Filtered Samples: %d\n", filteredSamples);
+            printf("Filtered Samples: %lu\n", filteredSamples);
         }
 
         hr = SoundToFileAsWave(psndFiltered, outputFile);

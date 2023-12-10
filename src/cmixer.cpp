@@ -39,10 +39,7 @@ STDMETHODIMP_(ULONG) CAMMixer::Release()
         }
 
         gpMixer = NULL;
-        if (this != NULL)
-        {
-            delete this;
-        }
+        delete this;
     }
 
     return RefCnt;

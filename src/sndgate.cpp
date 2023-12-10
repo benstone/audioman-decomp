@@ -76,12 +76,10 @@ STDMETHODIMP CAMGateFilter::GetSampleData(LPBYTE lpBuffer, DWORD dwPosition, LPD
         }
         else
         {
-
-            BYTE *sampleBytes = (BYTE *)lpBuffer;
-
+            CHAR *sampleBytes = (CHAR *)lpBuffer;
             while (cb > 0)
             {
-                if (abs(*sampleBytes) < m_GateThreshold)
+                if (abs((int)(*sampleBytes - 0x80)) < m_GateThreshold)
                 {
                     *sampleBytes = 0;
                 }

@@ -124,7 +124,7 @@ STDMETHODIMP_(MMRESULT) CFakeOut::GetDevCaps(UINT uDeviceID, LPWAVEOUTCAPS lpCap
         waveOutCaps.dwFormats = 0xfff;
         waveOutCaps.wChannels = 2;
         waveOutCaps.dwSupport = 0xc;
-        _tcscpy(waveOutCaps.szPname, TEXT("AudioMan WaveOut Simulator"));
+        _tcscpy_s(waveOutCaps.szPname, TEXT("AudioMan WaveOut Simulator"));
         if (cbCaps > sizeof(waveOutCaps))
         {
             cbCaps = sizeof(waveOutCaps);

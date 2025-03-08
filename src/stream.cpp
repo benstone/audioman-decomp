@@ -1,4 +1,5 @@
 #include <cassert>
+#include <cstdio>
 #include "stream.h"
 
 STDMETHODIMP_(ULONG) CFileStream::AddRef()
@@ -146,7 +147,7 @@ CFileStream::CFileStream(char *szFileName, ULONG offset, ULONG flags)
         {
             if (_llseek(m_FileHandle, offset, 0) == 0)
             {
-                strcpy(m_FileName, szFileName);
+                strcpy_s(m_FileName, szFileName);
                 m_Offset = offset;
             }
         }

@@ -1,4 +1,5 @@
 #include <cstdarg>
+#include <cstring>
 #include <cstdio>
 #include "dpf.h"
 
@@ -67,8 +68,9 @@ void DbgVPrintF(const char *szFormat, va_list va)
     // Log to file
     if (gDebugLogActive && rgchOutputFile[0] != 0)
     {
-        FILE *logFile = fopen(rgchOutputFile, "a");
-        if (logFile)
+        FILE *logFile = NULL;
+        errno_t err = fopen_s(&logFile, rgchOutputFile, "a");
+        if (err == 0 && logFile != NULL)
         {
             fputs(s_buffer, logFile);
             fclose(logFile);
@@ -124,7 +126,7 @@ UINT DbgSetLevel(UINT uLevel)
 void DbgLogFile(LPCSTR rgchLog, BOOL fActive)
 {
     gDebugLogActive = fActive;
-    strcpy(rgchOutputFile, rgchLog);
+    strcpy_s(rgchOutputFile, rgchLog);
 }
 
 void DbgOutActive(BOOL fOutActive)

@@ -21,60 +21,83 @@ STDMETHODIMP_(ULONG) CFileStream::Release()
 
 STDMETHODIMP CFileStream::Read(void *pv, ULONG cb, ULONG *pcbRead)
 {
+    HRESULT hr = S_OK;
+
     if (pv == NULL)
     {
-        return E_POINTER;
+        hr = E_POINTER;
     }
     else
     {
-        long cbRead = _hread(m_FileHandle, pv, cb);
-        if (pcbRead != NULL)
+        DWORD cbRead = 0;
+        BOOL fRet = ReadFile(m_FileHandle, pv, cb, &cbRead, NULL);
+        if (fRet)
         {
-            *pcbRead = cbRead;
+            if (pcbRead != NULL)
+            {
+                *pcbRead = cbRead;
+            }
         }
-        return S_OK;
+        else
+        {
+            hr = E_FAIL;
+        }
     }
+
+    return hr;
 }
 
 STDMETHODIMP CFileStream::Write(const void *pv, ULONG cb, ULONG *pcbWritten)
 {
     HRESULT hr = S_OK;
+    DWORD cbWritten = 0;
+    BOOL fRet;
 
-    *pcbWritten = _hwrite(m_FileHandle, (LPCCH)pv, cb);
-    if (*pcbWritten == -1)
+    fRet = WriteFile(m_FileHandle, pv, cb, &cbWritten, NULL);
+    *pcbWritten = cbWritten;
+
+    if (!fRet)
     {
         hr = E_FAIL;
     }
+
     return hr;
 }
 
 STDMETHODIMP CFileStream::Seek(LARGE_INTEGER dlibMove, DWORD dwOrigin, ULARGE_INTEGER *plibNewPosition)
 {
-    if (dwOrigin == STREAM_SEEK_SET)
+    HRESULT hr = E_FAIL;
+    DWORD dwMoveMethod = FILE_BEGIN;
+
+    switch (dwOrigin)
     {
-        _llseek(m_FileHandle, m_Offset + dlibMove.LowPart, 0);
-    }
-    else if (dwOrigin == STREAM_SEEK_CUR)
-    {
-        _llseek(m_FileHandle, dlibMove.LowPart, 1);
-    }
-    else if (dwOrigin == STREAM_SEEK_END)
-    {
-        _llseek(m_FileHandle, dlibMove.LowPart, 2);
-    }
-    else
-    {
-        DebugBreak();
+    case STREAM_SEEK_SET:
+        dwMoveMethod = FILE_BEGIN;
+        break;
+    case STREAM_SEEK_CUR:
+        dwMoveMethod = FILE_CURRENT;
+        break;
+    case STREAM_SEEK_END:
+        dwMoveMethod = FILE_END;
+        break;
+    default:
+        assert(FALSE);
+        break;
     }
 
-    if (plibNewPosition != NULL)
+    LARGE_INTEGER dlibNewPos;
+    if (SetFilePointerEx(m_FileHandle, dlibMove, &dlibNewPos, dwMoveMethod))
     {
-        LONG pos = _llseek(m_FileHandle, 0, 1);
-        plibNewPosition->LowPart = pos;
-        plibNewPosition->HighPart = 0;
+        if (plibNewPosition != NULL)
+        {
+            plibNewPosition->HighPart = dlibNewPos.HighPart;
+            plibNewPosition->LowPart = dlibNewPos.LowPart;
+        }
+
+        hr = S_OK;
     }
 
-    return S_OK;
+    return hr;
 }
 
 STDMETHODIMP CFileStream::SetSize(ULARGE_INTEGER libNewSize)
@@ -136,41 +159,76 @@ STDMETHODIMP CFileStream::Clone(IStream **ppstm)
 
 CFileStream::CFileStream(char *szFileName, ULONG offset, ULONG flags)
 {
+    HRESULT hr;
+    wchar_t wszFileName[MAX_PATH] = {0};
+
     m_FileName[0] = '\x0';
-    m_Offset = 0;
+
+    if (MultiByteToWideChar(CP_ACP, 0, szFileName, strlen(szFileName), wszFileName, MAX_PATH - 1) != 0)
+    {
+        hr = Open(wszFileName, offset, flags);
+        assert(SUCCEEDED(hr));
+    }
+}
+
+CFileStream::CFileStream(wchar_t *wszFileName, ULONG offset, ULONG flags)
+{
+    HRESULT hr;
+
+    m_FileName[0] = '\x0';
+
+    hr = Open(wszFileName, offset, flags);
+    assert(SUCCEEDED(hr));
+}
+
+HRESULT CFileStream::Open(wchar_t *wszFileName, ULONG offset, ULONG flags)
+{
+    HRESULT hr = S_OK;
     m_FileMode = flags;
 
     if (flags & 2)
     {
-        m_FileHandle = _lopen(szFileName, OF_SHARE_DENY_WRITE);
-        if (m_FileHandle != 0)
+        m_FileHandle =
+            CreateFileW(wszFileName, GENERIC_READ, FILE_SHARE_READ, NULL, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, NULL);
+        if (m_FileHandle != INVALID_HANDLE_VALUE)
         {
-            if (_llseek(m_FileHandle, offset, 0) == 0)
-            {
-                strcpy_s(m_FileName, szFileName);
-                m_Offset = offset;
-            }
+            offset = SetFilePointer(m_FileHandle, offset, 0, FILE_BEGIN);
+            m_Offset = offset;
+        }
+        else
+        {
+            hr = E_FAIL;
+        }
+    }
+    else if (flags & 1)
+    {
+        m_FileHandle = CreateFileW(wszFileName, GENERIC_ALL, 0, NULL, CREATE_NEW, FILE_ATTRIBUTE_NORMAL, NULL);
+        if (m_FileHandle == INVALID_HANDLE_VALUE)
+        {
+            hr = E_FAIL;
         }
     }
     else
     {
-        if (flags & 1)
-        {
-            m_FileHandle = _lcreat(szFileName, 0);
-            if (m_FileHandle != 0)
-            {
-                _lclose(m_FileHandle);
-                m_FileHandle = _lopen(szFileName, OF_SHARE_DENY_WRITE | OF_WRITE);
-            }
-        }
+        // invalid flags
+        assert(false);
+        hr = E_FAIL;
     }
+
+    if (SUCCEEDED(hr))
+    {
+        wcscpy_s(m_FileName, wszFileName);
+    }
+
+    return hr;
 }
 
 CFileStream::~CFileStream()
 {
-    if (m_FileHandle != 0)
+    if (m_FileHandle != INVALID_HANDLE_VALUE)
     {
-        _lclose(m_FileHandle);
+        CloseHandle(m_FileHandle);
+        m_FileHandle = INVALID_HANDLE_VALUE;
     }
 }
 

@@ -8,6 +8,7 @@ class CFileStream : public IStream
 {
   public:
     CFileStream(char *szFileName, ULONG offset, ULONG flags);
+    CFileStream(wchar_t *wszFileName, ULONG offset, ULONG flags);
 
     virtual ~CFileStream();
 
@@ -32,9 +33,12 @@ class CFileStream : public IStream
     STDMETHOD(Clone)(IStream **ppstm);
 
   private:
+
+    HRESULT Open(wchar_t *wszFileName, ULONG offset, ULONG flags);
+
     ULONG m_RefCnt = 0;
-    char m_FileName[256];
-    HFILE m_FileHandle = 0;
+    wchar_t m_FileName[MAX_PATH];
+    HANDLE m_FileHandle = INVALID_HANDLE_VALUE;
     ULONG m_Offset = 0;
     ULONG m_FileMode = 0;
 };

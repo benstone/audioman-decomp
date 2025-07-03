@@ -347,7 +347,7 @@ STDMETHODIMP_(MMRESULT) CRealOut::GetErrorText(MMRESULT err, LPSTR lpText, UINT 
     }
     else
     {
-        mmr = waveOutGetErrorText(err, lpText, cchText);
+        mmr = waveOutGetErrorTextA(err, lpText, cchText);
     }
     return mmr;
 }

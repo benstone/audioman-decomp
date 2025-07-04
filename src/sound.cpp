@@ -229,7 +229,7 @@ HRESULT CAMWavFileSrc::_ReadHeader(IStream *pInputStream)
         // Check the fmt chunk is the expected size
         if (ulChunkLen == 0x10)
         {
-            RIFF.GetStream()->Read(&WaveFormatEx, 0x10, NULL);
+            hr = RIFF.GetStream()->Read(&WaveFormatEx, 0x10, NULL);
             WaveFormatEx.cbSize = 0;
         }
         else if (ulChunkLen < 0x12)
@@ -238,7 +238,7 @@ HRESULT CAMWavFileSrc::_ReadHeader(IStream *pInputStream)
         }
         else
         {
-            RIFF.GetStream()->Read(&WaveFormatEx, sizeof(WaveFormatEx), NULL);
+            hr = RIFF.GetStream()->Read(&WaveFormatEx, sizeof(WaveFormatEx), NULL);
         }
     }
 

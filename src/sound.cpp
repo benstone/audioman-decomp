@@ -227,12 +227,12 @@ HRESULT CAMWavFileSrc::_ReadHeader(IStream *pInputStream)
     if (hr == S_OK)
     {
         // Check the fmt chunk is the expected size
-        if (ulChunkLen == 0x10)
+        if (ulChunkLen == sizeof(PCMWAVEFORMAT))
         {
-            hr = RIFF.GetStream()->Read(&WaveFormatEx, 0x10, NULL);
+            hr = RIFF.GetStream()->Read(&WaveFormatEx, sizeof(PCMWAVEFORMAT), NULL);
             WaveFormatEx.cbSize = 0;
         }
-        else if (ulChunkLen < 0x12)
+        else if (ulChunkLen < sizeof(WAVEFORMATEX))
         {
             hr = E_FAIL;
         }
@@ -256,7 +256,7 @@ HRESULT CAMWavFileSrc::_ReadHeader(IStream *pInputStream)
     if (hr == S_OK)
     {
         // Allocate the wave format
-        DWORD wave_format_size = WaveFormatEx.cbSize + 0x12;
+        DWORD wave_format_size = WaveFormatEx.cbSize + sizeof(WAVEFORMATEX);
         m_wfxSource = (LPWAVEFORMATEX) new BYTE[wave_format_size]();
         if (m_wfxSource == NULL)
         {

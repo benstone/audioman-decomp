@@ -13,10 +13,9 @@ typedef struct _CONVERSIONDATA
     BOOL UseACM;
     union {
         HACMSTREAM acmStream;
-        DWORD unknownA; // TODO: used for PCM conversion
+        INT buffer;
     };
-
-    DWORD unknownB; // TODO: used for PCM conversion
+    INT rateFactor;
 } CONVERSIONDATA;
 
 /**

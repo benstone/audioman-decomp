@@ -33,7 +33,7 @@ DWORD ConvertPCMGeneric(BYTE *lpSrc, DWORD cbSrc, BYTE *lpDst, DWORD cbDst, CONV
 
     // Convert
     acmStreamPrepareHeader(lpConversionData->acmStream, &streamHeader, 0);
-    acmStreamConvert(lpConversionData->acmStream, &streamHeader, 4);
+    acmStreamConvert(lpConversionData->acmStream, &streamHeader, ACM_STREAMCONVERTF_BLOCKALIGN);
     acmStreamUnprepareHeader(lpConversionData->acmStream, &streamHeader, 0);
 
     return streamHeader.cbDstLengthUsed;

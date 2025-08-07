@@ -132,6 +132,59 @@ DWORD ConvertPCMMono8ToStereo16(BYTE *lpSource, DWORD dwSrcLength, BYTE *lpDest,
     return dwDestLength;
 }
 
+DWORD ConvertPCMMono16ToStereo16(BYTE *lpSource, DWORD dwSrcLength, BYTE *lpDest, DWORD dwDestLength,
+                                 CONVERSIONDATA *pConversionData)
+{
+    USHORT *pInput = (USHORT *)(lpSource + (dwSrcLength - 2));
+    UINT *pOutput = (UINT *)(lpDest + (dwDestLength - 4));
+    DWORD dwLength = dwSrcLength / 2;
+
+    DWORD RateValue = (1 << (abs((int)pConversionData->rateFactor)));
+
+    DPRINTF(3, "ConvertPCMMono16ToStereo16 dwSrcLength = <%ld> dwDestLength = <%ld> RateFactor = <%ld>", dwSrcLength,
+            dwDestLength, pConversionData->rateFactor);
+
+    assert((dwDestLength & 3) == 0);
+
+    if (pConversionData->rateFactor == 0)
+    {
+        // No rate conversion
+        while (dwLength != 0)
+        {
+            *pOutput-- = Mono16ToStereo16(*pInput--);
+            dwLength--;
+        }
+    }
+    else if (pConversionData->rateFactor < 0)
+    {
+        // Downsampling
+        dwLength = dwSrcLength >> ((abs((int)pConversionData->rateFactor)) & 0x1F);
+        while (dwLength != 0)
+        {
+            *pOutput-- = Mono16ToStereo16(*pInput--);
+            pInput -= (RateValue - 1);
+            dwLength--;
+        }
+    }
+    else
+    {
+        // Upsampling
+        while (dwLength != 0)
+        {
+            UINT value = Mono16ToStereo16(*pInput--);
+            DWORD Rate = RateValue;
+            while (Rate != 0)
+            {
+                *pOutput-- = value;
+                Rate--;
+            }
+            dwLength--;
+        }
+    }
+
+    return dwDestLength;
+}
+
 // Convert using ACM
 DWORD ConvertPCMGeneric(BYTE *lpSrc, DWORD cbSrc, BYTE *lpDst, DWORD cbDst, CONVERSIONDATA *lpConversionData)
 {
@@ -307,7 +360,7 @@ PCMConversionFn GetPCMConvertProc(WAVEFORMATEX *pWFExSource, WAVEFORMATEX *pWFEx
                 {
                     DPRINTF(3, "CalculateFactors() ConvertPCMMono16ToStereo16 %ld=>%ld Rate=%d Buffer=%d",
                             pWFExSource->nSamplesPerSec, pWFExDest->nSamplesPerSec, *pRateFactor, *pBuffer);
-                    // not implemented
+                    pfnConvert = ConvertPCMMono16ToStereo16;
                 }
             }
         }
